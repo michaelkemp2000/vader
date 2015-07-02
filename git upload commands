@@ -1,0 +1,51 @@
+Managed to get git going and pushed to github
+
+Create a Git account
+Create a repository (in my case, I called it vader)
+goto command line on console
+	first you have to clone your repository that you created online
+	git clone https://github.com/michaelkemp2000/vader.git
+
+	next you move the code into the local instance of your reposiktory you just cloned
+	cp ex20.py .git/vader/
+
+	Next you got to your local repository
+	cd .git/vader/
+
+	Then you add the files in the direcory to staging, in this case I had README and the 1 file, so i used period and did not call out the specific file
+	git add .
+
+	Then I commited the code ready for upload
+	git commit -m 'Exercise 20 - Git commit test'
+
+	Finally I pushed to the repository vader @ github
+	git push origin master
+
+
+COURSE NOTES:
+-------------
+
+Distributed Version control.
+
+Issues in your reporsitor is for conversation - Bugs, ideas:
+
+	Setting tab if your owner of the repository, you need to add colabourators
+
+
+GITHUB flow (Branch)
+
+Master is the deplotable code.
+
+Should branch out for various testing in a safe place
+
+Commit - make chages, add code
+
+Pull request - Other people can comment review.  Make sure everyone is happy
+
+Merge - deploy back to master
+
+Storing local repositories: michaelkemp2000/git_repositories
+
+
+
+
