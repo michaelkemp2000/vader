@@ -1,0 +1,33 @@
+1.  Did not add quotes in this line so program could not detect a string value
+
+originally:
+print "Its fleece was white as %s." % snow
+
+Fixed:
+print "Its fleece was white as %s." % 'snow'
+
+2.  Did not add quotes around this variable declaration
+
+formatter = %r %r %r %r
+
+Should have been:
+
+formatter = "%r %r %r %r"
+
+3. Did not add comma between these strings:
+
+(
+"I had this thing."
+"That you could type up right."
+"But it didn't sing."
+"So I said goodnight."
+)
+
+Should gave been:
+
+(
+"I had this thing.",
+"That you could type up right.",
+"But it didn't sing.",
+"So I said goodnight."
+)
