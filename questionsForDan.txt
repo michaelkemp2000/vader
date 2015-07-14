@@ -1,2 +1,8 @@
 Go through the Debug again %r
 
+Talk to Dan about oop_test.py Chp 41
+
+Ask about ex42:
+
+TypeError: say_hello() takes exactly 1 argument (2 given)
+[Finished in 0.1s with exit code 1]
