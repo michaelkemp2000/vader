@@ -1,0 +1,24 @@
+Notes:
+
+Ordered dicts/hashes:
+
+print '\nOrderedDict:'
+d = collections.OrderedDict()
+d['a'] = 'A'
+d['b'] = 'B'
+d['c'] = 'C'
+d['d'] = 'D'
+d['e'] = 'E'
+
+for k, v in d.items():
+    print k, v
+
+
+ Deleting dicts:
+
+ del dict['Name']; # remove entry with key 'Name'
+dict.clear();     # remove all entries in dict
+del dict ;        # delete entire dictionary
+
+Modules and access:
+

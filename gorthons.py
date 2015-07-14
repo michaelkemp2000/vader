@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Gorgon's Attack!
 from sys import exit
 from randow import randint
@@ -73,12 +74,33 @@ class LaserWeaponArmory(Scene):
 		pass
 
 class TheBridge(Scene):
+=======
+
+
+prompt = "-->"
+
+class Map(object):
+
+	def __init__(self, start_scene):
+		pass
+
+	def next_scene(self, scene_name):
+		pass
+
+	def opening_scene(self):
+		pass
+
+class Scene(object):
+>>>>>>> master
 
 	def enter(self):
 		pass
 
+<<<<<<< HEAD
 #<-------------------------OTHER THINGS---------------------------->
 
+=======
+>>>>>>> master
 class Being(object):
 	def __init__(self, HP, AP):
 		pass
@@ -91,6 +113,7 @@ class Alien(Being):
 	def __init__(self, health):
 		pass
 
+<<<<<<< HEAD
 #<---------------------ENGINE--------------------------------------->
 
 class Engine(object):
@@ -105,6 +128,25 @@ class Engine(object):
 			print "\n-------"
 			next_scene_name = current_scene.enter()
 			current_scene = self.scene_map.next_scene(next_scene_name)
+=======
+class Engine(object):
+
+	def __init__(self, scene_map):
+		print '''\nGorthons have invaded your ship and its completly incapacitated.\n
+You have learned of their plans to nuke your home planet below!\n
+You must stop the Gorthons!\n'''
+
+
+	def play(self):
+		print "Are your ready to play (y / n)?"
+		start = raw_input(prompt)
+		if start == 'Y' or 'y':
+			CentralCorridor.enter
+		elif start == 'N' or 'n':
+			quit
+		else:
+			print "I'm not sure what that is, please enter y or n"
+>>>>>>> master
 
 	def quit(self):
 		pass
@@ -130,9 +172,44 @@ class Engine(object):
 	def save(self):
 		pass
 
+<<<<<<< HEAD
 #<----------------MAIN------------------------>
 
 a_map = Map('central_corridor')
 a_game = Engine(a_map)
 a_game.opening_scene()
+=======
+class Death(Scene):
+
+	def enter(self):
+		pass
+
+class EscapePod(Scene):
+	
+	def enter(self):
+		pass
+
+class Planet(Scene):
+
+	def enter(self):
+		pass
+
+class CentralCorridor(Scene):
+
+	def enter(self):
+		print "OK"
+
+class LaserWeaponArmory(Scene):
+
+	def enter(self):
+		pass
+
+class TheBridge(Scene):
+
+	def enter(self):
+		pass
+
+a_map = Map('central_corridor')
+a_game = Engine(a_map)
+>>>>>>> master
 a_game.play()
