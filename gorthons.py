@@ -1,6 +1,6 @@
 # Gorgon's Attack!
 from sys import exit
-from randow import randint
+from random import randint
 
 prompt = "-->"
 
@@ -8,8 +8,14 @@ prompt = "-->"
 
 class Map(object):
 
-	scenes = {'central_corridor': CentralCorridor(), 'the_bridge': TheBridge(), 'lwa': LaserWeaponArmory(),
-	'death': Death(), 'escape_pod': EscapePod(), 'planet': Planet()}
+	scenes = {
+		'central_corridor': CentralCorridor(),
+	#	'lwa': LaserWeaponArmory(),
+	#	'the_bridge': TheBridge(),
+	#	'escape_pod': EscapePod(),
+	#	'planet': Planet(),
+		'death': Death()
+		}
 
 	def __init__(self, start_scene):
 		self.start_scene = start_scene
@@ -17,8 +23,6 @@ class Map(object):
 	def next_scene(self, scene_name):
 		return Map.scenes.get(scene_name)
 
-	def opening_scene(self):
-		
 
 #<-------------------SCENES-------------------------------------->
 
@@ -41,17 +45,35 @@ class Death(Scene):
 class EscapePod(Scene):
 	
 	def enter(self):
-		pass
+		print "You rush through the ship desperatly trying to make it to the escape pod before the whole ship explodes."
+		print "It seems like hardly any Gorthons are on the ship, so you run clear of interference."
+		print "You get the the escape pod room and see five escape pods, some could be damaged but you don't have time to look."
+		print "which one do you take?"
+
+		good_pod = randint(1,5)
+		guess = raw_input("[pod #]>")
+
+		if int(guess) != good_pod:
+			print "You jump into pod %s and hit the eject button." % guess
+			print "The pod exscapes out into the void of space, then implodes as the hull ruptures, crushing your body."
+			return 'death'
+		else:
+			print "You jump into pod %s and hit the eject button." % guess
+			print "The pod easierly slides out into space, heading to the planet below."
+			print "As it flies to the planet, you look back and see your ship explode like a bright star, taking out the Gorthon ship also."
+			return 'planet'
+
 
 class Planet(Scene):
 
 	def enter(self):
-		pass
+		print " You land saftly on your planet only to find that its now inhabited by Gorthons #!?#.  What happened?"
+		return 'finished'
 
 class CentralCorridor(Scene):
 
 	def enter(self):
-		print '''\nGorthons have invaded your ship and its completly incapacitated.\n
+		print '''\nYou wake up from hyper-sleep and Gorthons have invaded your ship and its completly incapacitated.\n
 You are the last surviving crew member and ou have learned of their plans to nuke your home planet below!\n
 You must stop the Gorthons!\n
 Your mission is to get the neutron destruct bomb from the Weapons Armory put it in the Bridge
@@ -65,20 +87,16 @@ and blow up the ship, after you have accessed the escape pod and launched to the
 			print '''You find yourself in a central corridor, the door on the right is to the Armory has a gorthon guarding.
 		The door on the left to the escape pod room is not guard and the door at the end of the corridor which is to the Bridge
 		is guarded by an extremly large Gorthon.  Type \'A\' for Armory, \'B\' for Bridge or \'E\' for Escape Pod.'''
-		cc_opt = raw_input(prompt)
+			cc_opt = raw_input(prompt)
 			if cc_opt == 'a' or cc_opt == 'A':
 				return 'lwa'
 			elif cc_opt == 'b' or cc_opt == 'B':
 				return 'bridge'
 			elif cc_opt == 'e' or cc_opt == 'E':
 				return 'escape_pod'
-			else: 
-				print "I'm not sure what that is, please enter a, b or e"
-		else:
-			print "I'm not sure what that is, please enter y or n"
-
-
-		
+			else:
+				print "DOES NOT COMPUTE!"
+				return 'central_corridor'
 
 class LaserWeaponArmory(Scene):
 
@@ -111,7 +129,28 @@ You decide to sit there for a while, and finally Gorthans blow up you home plane
 
 class TheBridge(Scene):
 	def enter(self):
-		pass
+		print '''You burst into the Bridge with the neutron destruction bomb under your arm and surprise 5 Gorthons who are trying to
+take control of the ship.\n
+They haven\'t taken thier weapons out yet, and they see the active bomb under your arm and don't want to set it off.\n
+Do you \'a\',throw the bomb or \'b\', slowly place the bomb'''
+		action = raw_input(prompt)
+
+		if action == 'a' or 'A':
+			print "In a panic you throw the bomb and the group of Gorthons and make a leap for the door."
+			print "Right as you drop it a Gorthon shoots you right in the back, killing you."
+			print "As you die, you see another Gorthon frantically trying to disarm the bomb."
+			print "You die knowing that they will probably blow up when it goes off."
+			return 'death'
+
+		elif action == 'b' or 'B':
+			print "You point your blaster at the bomb under your arm and the Gorthons put thier hands up and start to sweat"
+			print "You inch backwards to the door, open it, and then carefully place the bomb on the floor."
+			print "You then jump back through the door, punch the close button abd blast the lock so the Gorthons cant get out."
+			print "Now the bomb is placed, you run to the escape pod to get off this tin."
+			return 'escape_pod'
+		else:
+			print "DOES NOT COMPUTE!"
+			return "the_bridge"
 
 
 #<-------------------------OTHER THINGS---------------------------->
