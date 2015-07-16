@@ -182,30 +182,9 @@ class Engine(object):
 			next_scene_name = current_scene.enter()
 			current_scene = self.scene_map.next_scene(next_scene_name)
 
-
-	def quit(self):
-		pass
-
-	def die(self):
-		pass
-
-	def battle(self):
-		pass
-
-	def escape(self):
-		pass
-
-	def move(self):
-		pass
-
-	def collect(self):
-		pass
-
-	def use(self):
-		pass
-
-	def save(self):
-		pass
+	def opening_scene(self):
+		return self.next_scene(self.start_scene)
+		
 
 #<----------------MAIN------------------------>
 
