@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Gorgon's Attack!
 from sys import exit
 from randow import randint
@@ -9,7 +8,8 @@ prompt = "-->"
 
 class Map(object):
 
-	scenes = {'central_corridor': CentralCorridor(), 'Lasew...'}
+	scenes = {'central_corridor': CentralCorridor(), 'the_bridge': TheBridge(), 'lwa': LaserWeaponArmory(),
+	'death': Death(), 'escape_pod': EscapePod(), 'planet': Planet()}
 
 	def __init__(self, start_scene):
 		self.start_scene = start_scene
@@ -54,7 +54,9 @@ class CentralCorridor(Scene):
 		print '''\nGorthons have invaded your ship and its completly incapacitated.\n
 You are the last surviving crew member and ou have learned of their plans to nuke your home planet below!\n
 You must stop the Gorthons!\n
-Your mission is to get the neutron destruct bomb from the weo'''
+Your mission is to get the neutron destruct bomb from the Weapons Armory put it in the Bridge
+and blow up the ship, after you have accessed the escape pod and launched to the plannet below\n'''
+
 		print "Are your ready to play (y / n)?"
 		start = raw_input(prompt)
 		if start == 'N' or 'n':
@@ -64,43 +66,57 @@ Your mission is to get the neutron destruct bomb from the weo'''
 		The door on the left to the escape pod room is not guard and the door at the end of the corridor which is to the Bridge
 		is guarded by an extremly large Gorthon.  Type \'A\' for Armory, \'B\' for Bridge or \'E\' for Escape Pod.'''
 		cc_opt = raw_input(prompt)
+			if cc_opt == 'a' or cc_opt == 'A':
+				return 'lwa'
+			elif cc_opt == 'b' or cc_opt == 'B':
+				return 'bridge'
+			elif cc_opt == 'e' or cc_opt == 'E':
+				return 'escape_pod'
+			else: 
+				print "I'm not sure what that is, please enter a, b or e"
 		else:
 			print "I'm not sure what that is, please enter y or n"
+
+
 		
 
 class LaserWeaponArmory(Scene):
 
 	def enter(self):
-		pass
+		print '''You do a dive roll into the Weapons Armory, crouch and scan the room for more Gorthons that might be hiding.
+It's dead quite, too quite.\n
+You stand up and run to the far side of the room and find the neutron bomb container.  There is a keypad lock on the box
+any you need the code to get thebomb out\n
+If you get the code wrong 10 timesthen the lock closes forever and you can't get the bomb.  The code is 3 digits.\n'''
+
+		code = "%d%d%d" % (randint(1,9), randint(1,9), randint(1,9))
+		guess = raw_input("[keypad]>")
+		guesses = 0
+
+		while guess != code and guesses < 10:
+			print "BZZZZZEDDD!"
+			guesses += 1
+			guess = raw_input("[keypad]>")
+
+		if guess == code:
+			print '''The container clicks open and the seal breaks, letting gas out.\n
+You grab the neutron bomb and run as fast as you can to the bridge, where you must plance it in the right spot.\n'''
+			return 'the_bridge'
+
+		else:
+			print '''The lock buzzes one last time and then you hear a sickening melting sound as the mechanism is fused together.\n
+You decide to sit there for a while, and finally Gorthans blow up you home planet below and your ship, you die.\n'''
+			return 'death'
+
 
 class TheBridge(Scene):
-=======
-
-
-prompt = "-->"
-
-class Map(object):
-
-	def __init__(self, start_scene):
-		pass
-
-	def next_scene(self, scene_name):
-		pass
-
-	def opening_scene(self):
-		pass
-
-class Scene(object):
->>>>>>> master
-
 	def enter(self):
 		pass
 
-<<<<<<< HEAD
+
 #<-------------------------OTHER THINGS---------------------------->
 
-=======
->>>>>>> master
+
 class Being(object):
 	def __init__(self, HP, AP):
 		pass
@@ -113,7 +129,6 @@ class Alien(Being):
 	def __init__(self, health):
 		pass
 
-<<<<<<< HEAD
 #<---------------------ENGINE--------------------------------------->
 
 class Engine(object):
@@ -128,25 +143,7 @@ class Engine(object):
 			print "\n-------"
 			next_scene_name = current_scene.enter()
 			current_scene = self.scene_map.next_scene(next_scene_name)
-=======
-class Engine(object):
 
-	def __init__(self, scene_map):
-		print '''\nGorthons have invaded your ship and its completly incapacitated.\n
-You have learned of their plans to nuke your home planet below!\n
-You must stop the Gorthons!\n'''
-
-
-	def play(self):
-		print "Are your ready to play (y / n)?"
-		start = raw_input(prompt)
-		if start == 'Y' or 'y':
-			CentralCorridor.enter
-		elif start == 'N' or 'n':
-			quit
-		else:
-			print "I'm not sure what that is, please enter y or n"
->>>>>>> master
 
 	def quit(self):
 		pass
@@ -172,44 +169,8 @@ You must stop the Gorthons!\n'''
 	def save(self):
 		pass
 
-<<<<<<< HEAD
 #<----------------MAIN------------------------>
 
 a_map = Map('central_corridor')
 a_game = Engine(a_map)
-a_game.opening_scene()
-=======
-class Death(Scene):
-
-	def enter(self):
-		pass
-
-class EscapePod(Scene):
-	
-	def enter(self):
-		pass
-
-class Planet(Scene):
-
-	def enter(self):
-		pass
-
-class CentralCorridor(Scene):
-
-	def enter(self):
-		print "OK"
-
-class LaserWeaponArmory(Scene):
-
-	def enter(self):
-		pass
-
-class TheBridge(Scene):
-
-	def enter(self):
-		pass
-
-a_map = Map('central_corridor')
-a_game = Engine(a_map)
->>>>>>> master
 a_game.play()
