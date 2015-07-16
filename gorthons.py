@@ -4,26 +4,6 @@ from random import randint
 
 prompt = "-->"
 
-#<--------------------MAP-------------------------------------->
-
-class Map(object):
-
-	scenes = {
-		'central_corridor': CentralCorridor(),
-	#	'lwa': LaserWeaponArmory(),
-	#	'the_bridge': TheBridge(),
-	#	'escape_pod': EscapePod(),
-	#	'planet': Planet(),
-		'death': Death()
-		}
-
-	def __init__(self, start_scene):
-		self.start_scene = start_scene
-
-	def next_scene(self, scene_name):
-		return Map.scenes.get(scene_name)
-
-
 #<-------------------SCENES-------------------------------------->
 
 class Scene(object):
@@ -84,7 +64,7 @@ and blow up the ship, after you have accessed the escape pod and launched to the
 		if start == 'N' or 'n':
 			exit(1)
 		elif start == 'Y' or 'y':
-			print '''You find yourself in a central corridor, the door on the right is to the Armory has a gorthon guarding.
+			print '''\nYou find yourself in a central corridor, the door on the right is to the Armory has a gorthon guarding.
 		The door on the left to the escape pod room is not guard and the door at the end of the corridor which is to the Bridge
 		is guarded by an extremly large Gorthon.  Type \'A\' for Armory, \'B\' for Bridge or \'E\' for Escape Pod.'''
 			cc_opt = raw_input(prompt)
@@ -167,6 +147,25 @@ class Hero(Being):
 class Alien(Being):
 	def __init__(self, health):
 		pass
+
+#<--------------------MAP-------------------------------------->
+
+class Map(object):
+
+	scenes = {
+		'central_corridor': CentralCorridor(),
+		'lwa': LaserWeaponArmory(),
+		'the_bridge': TheBridge(),
+		'escape_pod': EscapePod(),
+		'planet': Planet(),
+		'death': Death()
+		}
+
+	def __init__(self, start_scene):
+		self.start_scene = start_scene
+
+	def next_scene(self, scene_name):
+		return Map.scenes.get(scene_name)
 
 #<---------------------ENGINE--------------------------------------->
 
