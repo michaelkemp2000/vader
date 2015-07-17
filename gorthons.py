@@ -27,8 +27,8 @@ class Engine(object):
 			print "\n-------------------------------BUGGER"  #8. Ok, we are getting this far
 			next_scene_name = curent_scene.enter()  #9. FIX - was a typo in current scene... This seems to be the problem! calling current scene (centralCorridtor().enter) function
 			print next_scene_name + ' check 1' #check whats in here! ---> getting this far.
-			current_scene = self.scene_map.next_scene(next_scene_name)
-			print current_scene #This seems to work up to here now with lwa object passed ....
+			curent_scene = self.scene_map.next_scene(next_scene_name)
+			print curent_scene #This seems to work up to here now with lwa object passed ....
 
 #<-------------------SCENE-------------------------------------->
 
