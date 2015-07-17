@@ -2,14 +2,35 @@
 from sys import exit
 from random import randint
 
-prompt = "-->"
-
-#<-------------------SCENES-------------------------------------->
+#<-------------------SCENE-------------------------------------->
 
 class Scene(object):
 
+
 	def enter(self):
 		print "This scene is noy yet configured.  Subclass it and implement enter()."
+		exit(1)
+
+#<---------------------ENGINE--------------------------------------->
+
+class Engine(object):
+
+	def __init__(self, scene_map):
+		self.scene_map = scene_map # this is now the Map instance a_map that contains start_scene in a.map (central_corridor was passed #194)
+
+	def play(self):
+		print self.scene_map.start_scene #debug to see whats in in map instance start scene variable
+		curent_scene = self.scene_map.opening_scene()  #4 & 7. this calles a.map opening scene function and puts the return in current_scene
+		print curent_scene  #whats in current scene (think this is an instance of CentralCorridor())
+
+		while True:
+			print "\n-------------------------------BUGGER"  #8. Ok, we are getting this far
+			next_scene_name = curent_scene.enter()  #9. FIX - was a typo in current scene... This seems to be the problem! calling current scene (centralCorridtor().enter) function
+			print next_scene_name + ' check 1' #check whats in here! ---> getting this far.
+			current_scene = self.scene_map.next_scene(next_scene_name)
+			print current_scene
+
+#<-------------------SCENE-------------------------------------->
 
 class Death(Scene):
 
@@ -60,14 +81,15 @@ Your mission is to get the neutron destruct bomb from the Weapons Armory put it 
 and blow up the ship, after you have accessed the escape pod and launched to the plannet below\n'''
 
 		print "Are your ready to play (y / n)?"
-		start = raw_input(prompt)
-		if start == 'N' or 'n':
-			exit(1)
-		elif start == 'Y' or 'y':
+		start = raw_input("-->")
+		if start == 'N' or start == 'n':
+			print "Your trapped on the ship you fool!  Ok you jetty yourself into space and die"
+			return 'death'
+		elif start == 'Y' or start == 'y':
 			print '''\nYou find yourself in a central corridor, the door on the right is to the Armory has a gorthon guarding.
 		The door on the left to the escape pod room is not guard and the door at the end of the corridor which is to the Bridge
 		is guarded by an extremly large Gorthon.  Type \'A\' for Armory, \'B\' for Bridge or \'E\' for Escape Pod.'''
-			cc_opt = raw_input(prompt)
+			cc_opt = raw_input("-->")
 			if cc_opt == 'a' or cc_opt == 'A':
 				return 'lwa'
 			elif cc_opt == 'b' or cc_opt == 'B':
@@ -77,6 +99,9 @@ and blow up the ship, after you have accessed the escape pod and launched to the
 			else:
 				print "DOES NOT COMPUTE!"
 				return 'central_corridor'
+		else:
+			print "DOES NOT COMPUTE!"
+			return 'central_corridor'
 
 class LaserWeaponArmory(Scene):
 
@@ -148,6 +173,7 @@ class Alien(Being):
 	def __init__(self, health):
 		pass
 
+
 #<--------------------MAP-------------------------------------->
 
 class Map(object):
@@ -165,29 +191,16 @@ class Map(object):
 		self.start_scene = start_scene
 
 	def next_scene(self, scene_name):
-		return Map.scenes.get(scene_name)
-
-#<---------------------ENGINE--------------------------------------->
-
-class Engine(object):
-
-	def __init__(self, scene_map):
-		self.scene_map = scene_map
-
-	def play(self):
-		curent_scene = self.scene_map.opening_scene()
-
-		while True:
-			print "\n-------"
-			next_scene_name = current_scene.enter()
-			current_scene = self.scene_map.next_scene(next_scene_name)
+		print scene_name + ' check 2'
+		return Map.scenes.get(scene_name) # 6.this looks up scene name in dict, originally central corridor and returns CentralCorridor()
 
 	def opening_scene(self):
-		return self.next_scene(self.start_scene)
-		
+		print self.start_scene  # debug to show me whats in amap start_scene (should be central corridor)
+		return self.next_scene(self.start_scene) #5. this calles a.map next scene function and puts the return to output to current scene in play function (#186)
+
 
 #<----------------MAIN------------------------>
 
-a_map = Map('central_corridor')
-a_game = Engine(a_map)
-a_game.play()
+a_map = Map('central_corridor') #1.This creates an object a_map from Map and passes 'central corridor' to start_scene
+a_game = Engine(a_map) #2.This creates an object a_game from Engine while passing in the instance of Map class (a_map)
+a_game.play()  #3. run play function from Enginer object instance
