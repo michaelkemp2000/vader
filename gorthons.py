@@ -27,6 +27,45 @@ class Engine(object):
 			next_scene_name = curent_scene.enter()  #9. FIX - was a typo in current scene... This seems to be the problem! calling current scene (centralCorridtor().enter) function
 			curent_scene = self.scene_map.next_scene(next_scene_name)
 
+#<-------------------------Characters---------------------------->
+
+
+class Being(object):
+	def __init__(self, alive):
+		self.alive = alive
+
+class Hero(Being):
+
+	items = {}
+
+	def __init__(self, health):
+		self.health = health
+
+	def reduce_health(self, hit):
+		self.hit = hit
+		self.health = self.health - self.hit
+
+	def add_item(self, iname, ivalue):
+		self.iname = iname
+		self.ivalue = ivalue
+		self.ivalue = "%d%d%d" % (randint(1,9), randint(1,9), randint(1,9))
+		Hero.items[self.iname] = self.ivalue
+
+	def set_weapon(self, weapon, kind):
+		self.weapon = weapon
+		self.type = kind
+		Hero.items[weapon] = kind
+
+
+class Alien(Being):
+	def __init__(self, health):
+		self.health = health
+
+	def reduce_health(self, hit):
+		self.hit = hit
+		self.health = self.health - self.hit
+		
+
 #<-------------------ACTION-------------------------------------->
 class Battle(object):
 
@@ -40,31 +79,33 @@ class Battle(object):
 		print weapon
 		if self.alien.health > 0:
 			print "\nThe Alien shouts ggrazadbog!"
-			print "You pull out your laser gun and shoot the Gorthon."
+			print "You fire your weapon at the Gorthon."
 			while self.alien.health > 0:
 				if weapon == 'laser gun':
 					a_damage = randint(1,4)
 					print "zap: [-%d] hit point!" % a_damage 
 					self.alien.reduce_health(a_damage)
-					print self.alien.health
 					if self.alien.health > 0:
 						print "He is not dead!"
 						self.defend()
+					
+					else:
+						print "You killed the Gorthon"
 						return 'hero'
 				else:
 					a_damage = randint(5,10)
 					print "zap: [-%d] hit point!" % a_damage 
 					self.alien.reduce_health(a_damage)
-					print self.alien.health
 					if self.alien.health > 0:
 						print "He is not dead!"
 						self.defend()
 						return 'hero'
-
+					else:
+						print "You killed the Gorthon"
+						return 'hero'
+				return 'alien'
 			if self.alien.health < 0:
 				print "You killed the Gorthon"
-				print "You pickup a passcode from his dead corpse"
-				self.hero.add_item('passcode', '1234')
 				return 'hero'
 
 		else:
@@ -115,9 +156,9 @@ class EscapePod(Scene):
 	
 	def enter(self):
 		print "You rush through the ship desperatly trying to make it to the escape pod before the whole ship explodes."
-		print "It seems like hardly any Gorthons are on the ship, so you run clear of interference."
-		print "You the escape pod room and see a large Gorthon with advanced battle armor.  He must be the invasion party leader."
-		print "There are also five escape pods that he has been tampering with to retrofit with bombs."
+		print "It seems like hardly any Gorthons are on the ship, so you run clear of interference.\n"
+		print "You enter the escape pod room and see a large Gorthon with advanced battle armor.  He must be the invasion party leader."
+		print "\nThere are also five escape pods that he has been tampering with to retrofit with bombs."
 		print "Do you take an escape pod or fight (E or F)?"
 		ans2 = raw_input("-->")
 		if ans2 == 'e' or ans2 =='E':
@@ -138,13 +179,11 @@ class EscapePod(Scene):
 		
 		elif ans2 == 'f' or ans2 == 'F':
 			print "You hear a voice in your mind, could this be from the Gorthon general.  Does he have some kind of telepathic ability."
-			print "You cannon defeat me!"
-			weapon = Hero.items.get('weapon1')
+			print "You cannot defeat me!"
+			weapon = a_hero.items.get('weapon')
 			if weapon == 'plasma cannon':
 				print "you pull out your plasma cannon"
 				print "The Gorthon looks concerned and backs up"
-				b_alien = Alien(4)
-				b_battle = Battle(b_alien, a_hero)
 				winner = b_battle.attack()
 				if winner == 'hero':
 					print "You fall to the ground you head is hurting."
@@ -156,12 +195,13 @@ class EscapePod(Scene):
 					print "The pod easierly slides out into space, heading to the planet below."
 					print "As it flies to the planet, you look back and see your ship explode like a bright star, taking out the Gorthon ship also."
 					return 'planet'
+				elif winner == 'alien':
+					print "Fatal shot, you cannot sustain this injury!"
+					return 'death'
 				else:
 					return 'death'
 			else:
 				print "This Gorthon is much bigger than you are with some serious armor.  This may not go well"
-				b_alien = Alien(4)
-				b_battle = Battle(b_alien, a_hero)
 				winner = b_battle.attack()
 				if winner == 'hero':
 					print "You fall to the ground you head is hurting."
@@ -173,6 +213,9 @@ class EscapePod(Scene):
 					print "The pod easierly slides out into space, heading to the planet below."
 					print "As it flies to the planet, you look back and see your ship explode like a bright star, taking out the Gorthon ship also."
 					return 'planet'
+				elif winner == 'alien':
+					print 'Try looking for a better weapon to defeat the general somewhere in this game (L)'
+					return 'death'
 				else:
 					return 'death'
 
@@ -188,11 +231,6 @@ class CentralCorridor(Scene):
 
 	def enter(self):
 
-			a_hero = Hero(4)
-			a_alien = Alien(2)
-			a_battle = Battle(a_alien, a_hero)
-			Hero.items['weapon1'] = "laser gun"
-
 			print "\nYou find yourself in a central corridor with three door labeled Armory, Bridge and Escape Pod."
 			print "There is a Gorthon guarding.  Do you:"
 			print "Attack the Gorthon (A)"
@@ -204,6 +242,8 @@ class CentralCorridor(Scene):
 			if cc_opt == 'a' or cc_opt == 'A':
 				winner = a_battle.attack()
 				if winner == 'hero':
+					print "You pickup a passcode from his dead corpse"
+					a_hero.add_item('passcode', '1234')
 					print "Go to the Laser Weapons Armory (L)"
 					print "Go to the Bridge (B)"
 					print "Go to the escape pod (E)"
@@ -286,7 +326,7 @@ class LaserWeaponArmory(Scene):
 			elif ans1 == 'L' or ans1 == 'l':
 				print "You examine the room and find a plasma cannon hidden under some large"
 				print "containers that must have falled due to the attach on your ship."
-				Hero.items['weapon1'] = "plasma cannon"
+				a_hero.set_weapon('weapon', 'plasma cannon')
 
 			else:
 				print "DOES NOT COMPUTE!"
@@ -327,41 +367,6 @@ class TheBridge(Scene):
 			print "They turn and look at you.  You\'re toast, the show you mercy with a quick death!"
 			return 'death'
 
-
-#<-------------------------OTHER THINGS---------------------------->
-
-
-class Being(object):
-	def __init__(self, alive):
-		self.alive = alive
-
-class Hero(Being):
-
-	items = {}
-
-	def __init__(self, health):
-		self.health = health
-
-
-	def reduce_health(self, hit):
-		self.hit = hit
-		self.health = self.health - self.hit
-
-	def add_item(self, iname, ivalue):
-		self.iname = iname
-		self.ivalue = ivalue
-		self.ivalue = "%d%d%d" % (randint(1,9), randint(1,9), randint(1,9))
-		Hero.items[self.iname] = self.ivalue
-
-
-class Alien(Being):
-	def __init__(self, health):
-		self.health = health
-
-	def reduce_health(self, hit):
-		self.hit = hit
-		self.health = self.health - self.hit
-		
 
 
 #<--------------------MAP-------------------------------------->
@@ -407,6 +412,13 @@ class Map(object):
 
 #<----------------MAIN------------------------>
 
+a_hero = Hero(4)
+a_alien = Alien(2)
+a_battle = Battle(a_alien, a_hero)
+a_hero.set_weapon('weapon', 'laser gun')
+b_alien = Alien(8)
+b_battle = Battle(b_alien, a_hero)
 a_map = Map('central_corridor') #1.This creates an object a_map from Map and passes 'central corridor' to start_scene
 a_game = Engine(a_map) #2.This creates an object a_game from Engine while passing in the instance of Map class (a_map)
 a_game.play()  #3. run play function from Enginer object instance
+
