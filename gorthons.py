@@ -554,25 +554,36 @@ class Map(object):
 			return self.next_scene(self.start_scene)
 
 
-# Main body of code.
-# Step 0.1.  Create a hero instance and pass in health points
-a_hero = Hero(4)
-# Step 0.2.  Create a alien instance and pass in health points
-a_alien = Alien(2)
-# Step 0.3.  Create a battle instance and pass in the characters involved.
-# In this case, its the hero and alien instances that have been previosly created. 
-a_battle = Battle(a_alien, a_hero)
-# Step 0.4.  Set the hero instance weapon.
-a_hero.set_weapon('weapon', 'laser gun')
-# Step 0.5.  Create a second alien that the hero will have to battle.
-# Pass in health.
-b_alien = Alien(8)
-# Step 0.6.  Create a second battle where the hero battles the second alien.
-b_battle = Battle(b_alien, a_hero)
-# Step 1.  This creates an object a_map from Map and passes 'central corridor' to start_scene
-a_map = Map('central_corridor')
-# Step 2.  This creates an object a_game from Engine while passing in the instance of Map class (a_map)
-a_game = Engine(a_map) 
-#  Step 3.  Run play function from Enginer object instance
-a_game.play()
+# Main class which is the main body of the code.
+class Main(object):
+
+
+	def __init__(self):
+
+		self.start_game()
+	
+	# Function to start the game.
+	def start_game(self):
+		# Step 0.1.  Create a hero instance and pass in health points
+		a_hero = Hero(4)
+		# Step 0.2.  Create a alien instance and pass in health points
+		a_alien = Alien(2)
+		# Step 0.3.  Create a battle instance and pass in the characters involved.
+		# In this case, its the hero and alien instances that have been previosly created. 
+		a_battle = Battle(a_alien, a_hero)
+		# Step 0.4.  Set the hero instance weapon.
+		a_hero.set_weapon('weapon', 'laser gun')
+		# Step 0.5.  Create a second alien that the hero will have to battle.
+		# Pass in health.
+		b_alien = Alien(8)
+		# Step 0.6.  Create a second battle where the hero battles the second alien.
+		b_battle = Battle(b_alien, a_hero)
+		# Step 1.  This creates an object a_map from Map and passes 'central corridor' to start_scene
+		a_map = Map('central_corridor')
+		# Step 2.  This creates an object a_game from Engine while passing in the instance of Map class (a_map)
+		a_game = Engine(a_map) 
+		#  Step 3.  Run play function from Enginer object instance
+		a_game.play()
+
+Main()
 
