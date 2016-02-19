@@ -21,6 +21,15 @@ tyler = {
 
 # Add your function below!
 
+def get_class_average(students):
+
+    results = []
+    for s in students:
+        result = get_average(s)
+        results.append(result)
+    classaverage = average(results)
+    return classaverage
+
 def get_average(student):
 
     homework = 0.10 * average(student["homework"])
@@ -52,22 +61,16 @@ def get_letter_grade(score):
     else:
         return "F"
 
-def get_class_average(students):
-
-    results = []
-    for s in students:
-        result = get_average(s)
-        results.append(result)
-    return average(results)
-
+# List of classmates
 
 classmates = [lloyd, alice, tyler]
-lessons = ['homework', 'quizzes', 'tests']
 
-score = get_average(lloyd)
-print get_letter_grade(score)
+# Main
+
 results = get_class_average(classmates)
 print results
+grade = get_letter_grade(results)
+print grade
 
 # def average(people, numbers):
     
@@ -79,3 +82,8 @@ print results
 #            total = float(total) / len(p[n])
 #            print "Average %s: %d" % (n, total)
 #        print ""
+
+# lessons = ['homework', 'quizzes', 'tests']
+
+# score = get_average(lloyd)
+# print get_letter_grade(score)
